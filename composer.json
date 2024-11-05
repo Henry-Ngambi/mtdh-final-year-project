@@ -1,0 +1,17 @@
+{
+    "name": "henryshp/mtdh",
+    "autoload": {
+        "psr-4": {
+            "Henryshp\\Mtdh\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Henry Ng'ambi",
+            "email": "164085714+Henry-Ngambi@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

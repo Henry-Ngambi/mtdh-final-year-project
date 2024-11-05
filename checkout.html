@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Basic styling for the form */
+        .hidden {
+            display: none;
+        }
+        #payment-form {
+            width: 300px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Checkout</h2>
+<form id="payment-form">
+    <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
+    <button id="submit">Pay</button>
+    <div id="payment-result" class="hidden"></div>
+</form>
+
+<script>
+    const stripe = Stripe('your_stripe_publishable_key'); // Replace with your actual publishable key
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    document.getElementById('payment-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const { paymentIntent, error } = await stripe.confirmCardPayment('your_client_secret', {
+            payment_method: {
+                card: cardElement,
+                billing_details: {
+                    name: 'Cardholder Name', // Replace with user input
+                },
+            },
+        });
+
+        if (error) {
+            // Show error to your customer
+            document.getElementById('payment-result').innerText = error.message;
+            document.getElementById('payment-result').classList.remove('hidden');
+        } else {
+            // Payment succeeded
+            document.getElementById('payment-result').innerText = 'Payment successful!';
+            document.getElementById('payment-result').classList.remove('hidden');
+        }
+    });
+</script>
+
+</body>
+</html>
